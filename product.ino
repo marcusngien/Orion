@@ -3,15 +3,15 @@
 
 SoftwareSerial BT(12,13);
 
-// Motor
-const int IN1=2, IN2=3, IN3=4, IN4=7; // 方向控制
-const int ENA=6;  // PWM ✅
-const int ENB=5;  // PWM ✅
 
-// Ultrasonic
+const int IN1=2, IN2=3, IN3=4, IN4=7; 
+const int ENA=6;  
+const int ENB=5; 
+
+
 const int trigPin=10, echoPin=11;
 
-// Servo
+
 Servo myServo;
 const int servoPin=9;
 
@@ -20,7 +20,7 @@ char lastCommand='S';
 char command;
 long duration;
 
-// ---------------- Motor ----------------
+
 void moveForward(){
   digitalWrite(IN1,HIGH); digitalWrite(IN2,LOW);
   digitalWrite(IN3,HIGH); digitalWrite(IN4,LOW);
@@ -47,7 +47,7 @@ void stopMotors(){
   analogWrite(ENA,0); analogWrite(ENB,0);
 }
 
-// ---------------- Ultrasonic ----------------
+
 int getDistance(){
   digitalWrite(trigPin,LOW); delayMicroseconds(2);
   digitalWrite(trigPin,HIGH); delayMicroseconds(10);
@@ -70,12 +70,12 @@ int getAverageDistance(){
   return sum/c;
 }
 
-// ---------------- Bluetooth ----------------
+
 void checkBluetooth(){
   if(!BT.available()) return;
   command=BT.read();
 
-  // 忽略换行符和空格
+ 
   if(command=='\r' || command=='\n' || command==' ') return;
 
   if(command=='m'){
@@ -100,7 +100,7 @@ void checkBluetooth(){
   }
 }
 
-// ---------------- 自动动作 ----------------
+
 void autoAction(void (*action)(),int ms){
   unsigned long t=millis();
   while(millis()-t<ms){
@@ -111,7 +111,7 @@ void autoAction(void (*action)(),int ms){
   }
 }
 
-// ---------------- Setup ----------------
+
 void setup(){
   pinMode(IN1,OUTPUT); pinMode(IN2,OUTPUT);
   pinMode(IN3,OUTPUT); pinMode(IN4,OUTPUT);
@@ -126,7 +126,7 @@ void setup(){
   BT.begin(9600);
 }
 
-// ---------------- Loop ----------------
+
 void loop(){
   checkBluetooth();
 
